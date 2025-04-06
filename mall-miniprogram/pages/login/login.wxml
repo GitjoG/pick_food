@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="logo">
+    <!-- 放置应用logo -->
+    <image src="/images/logo.png" mode="aspectFit"></image>
+  </view>
+  
+  <view class="title">欢迎使用小程序</view>
+  
+  <view class="btn-container">
+    <button class="login-btn" bindtap="handleLogin" loading="{{isLoading}}">微信一键登录</button>
+  </view>
+</view> 

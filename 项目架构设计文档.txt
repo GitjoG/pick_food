@@ -1,0 +1,230 @@
+# 热量定制小程序项目架构设计文档
+
+## 1. 项目概述
+
+本项目是一个基于用户输入的热量需求，推荐食物组合的小程序系统。项目包含三个子系统：
+1. 小程序前端（微信小程序原生）
+2. 小程序后台管理系统（前后端一体化）
+3. 前端的后端API服务
+
+## 2. 系统架构
+
+### 2.1 整体架构
++------------------+     +------------------+     +------------------+ 
+| | | | |
+| 微信小程序前端 | <-> | 后端API服务 | <-> | 数据库 |
+| | | | | |
++------------------+ +------------------+ +------------------+
+^
+|
+v
++------------------+
+| |
+| 后台管理系统 |
+| |
++------------------+
+
+
+### 2.2 技术栈选择
+
+#### 2.2.1 小程序前端
+- 开发框架：微信小程序原生框架
+- 开发语言：JavaScript/TypeScript
+- UI组件：WeUI
+- 状态管理：Mobx-miniprogram
+
+#### 2.2.2 后端API服务
+- 开发语言：Python 3.9+
+- Web框架：FastAPI
+- 数据库：MySQL 8.0
+- 身份验证：JWT (JSON Web Tokens)
+
+
+#### 2.2.3 后台管理系统
+- 前端框架：Vue.js 3
+- UI组件库：Element Plus
+- 状态管理：Vuex/Pinia
+- 路由：Vue Router
+- HTTP客户端：Axios
+- 后端：与API服务共用相同的后端
+
+
+
+## 3. 数据库设计
+
+### 3.1 主要数据表
+
+1. **用户表 (users)**
+   - id: 主键
+   - openid: 微信用户唯一标识
+   - username: 用户名
+   - phone: 手机号
+   - created_at: 创建时间
+   - updated_at: 更新时间
+
+2. **用户信息表 (user_profiles)**
+   - id: 主键
+   - user_id: 外键，关联用户表
+   - height: 身高(cm)
+   - weight: 体重(kg)
+   - age: 年龄
+   - gender: 性别
+   - activity_level: 活动量级别
+   - bmr: 基础代谢率
+   - tdee: 总能量消耗
+   - calorie_target: 目标热量
+   - protein_target: 蛋白质目标(g)
+   - fat_target: 脂肪目标(g)
+   - carb_target: 碳水目标(g)
+   - created_at: 创建时间
+   - updated_at: 更新时间
+
+3. **餐厅表 (restaurants)**
+   - id: 主键
+   - name: 餐厅名称
+   - created_at: 创建时间
+   - updated_at: 更新时间
+
+4. **菜品表 (food_items)**
+   - id: 主键
+   - restaurant_id: 外键，关联餐厅表
+   - name: 菜品名称
+   - calories: 热量(千卡)
+   - protein: 蛋白质(g)
+   - fat: 脂肪(g)
+   - carbs: 碳水化合物(g)
+   - image_url: 菜品图片URL
+   - created_at: 创建时间
+   - updated_at: 更新时间
+
+
+5. **食物记录表 (food_records)**
+   - id: 主键
+   - user_id: 外键，关联用户表
+   - food_item_id: 外键，关联菜品表(可为空，自定义食物时)
+   - meal_type: 餐次类型(早餐、午餐、晚餐等)
+   - custom_food_name: 自定义食物名称(当food_item_id为空时)
+   - calories: 热量(千卡)
+   - protein: 蛋白质(g)
+   - fat: 脂肪(g)
+   - carbs: 碳水化合物(g)
+   - record_date: 记录日期
+   - record_time: 记录时间
+   - created_at: 创建时间
+   - updated_at: 更新时间
+
+6. **用户反馈表 (user_feedback)**
+   - id: 主键
+   - user_id: 外键，关联用户表
+   - feedback_type: 反馈类型
+   - content: 反馈内容
+   - contact_info: 联系方式
+   - status: 处理状态
+   - created_at: 创建时间
+   - updated_at: 更新时间
+
+
+
+## 4. API设计
+
+### 4.1 RESTful API设计原则
+- 使用HTTP方法表示操作类型：GET(查询)、POST(创建)、PUT(更新)、DELETE(删除)
+- 使用HTTP状态码表示请求结果
+- 使用JSON作为数据交换格式
+- API版本控制：在URL中包含版本号，如/api/v1/
+
+
+
+### 4.2 主要API端点
+
+#### 用户相关API
+- POST /api/v1/user/login：用户登录
+- GET /api/v1/user/info：获取用户信息
+- PUT /api/v1/user/info：更新用户信息
+- POST /api/v1/user/feedback：提交用户反馈
+- POST /api/v1/user/logout：用户退出登录
+
+#### 营养计算API
+- POST /api/v1/user/calculateBMR：计算基础代谢率
+- POST /api/v1/user/calculateTDEE：计算总能量消耗
+- POST /api/v1/user/calculateNutrients：计算营养素需求
+- POST /api/v1/user/calculateCalorie：计算热量需求和缺口
+
+#### 餐厅相关API
+- GET /api/v1/restaurant/list：获取餐厅列表
+- GET /api/v1/restaurant/menu：获取餐厅菜单
+- POST /api/v1/restaurant/preference：保存用户餐厅偏好
+
+#### 食物推荐API
+- POST /api/v1/recommendation/generate：生成食物推荐
+- PUT /api/v1/recommendation/adjust：调整食物推荐
+
+#### 食物记录API
+- POST /api/v1/record/add：添加食物记录
+- PUT /api/v1/record/update：更新食物记录
+- GET /api/v1/record/getDaily：获取每日食物记录
+- GET /api/v1/record/getRemaining：获取剩余营养量
+
+## 5. 安全性设计
+
+
+### 5.1 API安全
+- 实施速率限制(Rate Limiting)：每IP每分钟最多60次请求
+- 所有API通过HTTPS传输
+- 防止SQL注入：使用参数化查询和ORM
+- 防止XSS攻击：输入验证和输出编码
+- 防止CSRF攻击：使用CSRF令牌
+- 实施内容安全策略(CSP)
+
+
+### 5.2 后台管理系统安全
+- 强密码策略：至少8位，包含大小写字母、数字和特殊字符
+- 多因素认证(MFA)
+- 登录失败锁定：连续5次失败后锁定账户15分钟
+- 会话超时：30分钟无操作自动登出
+- 操作日志记录
+
+## 6. 部署架构
+
+### 6.1 开发环境
+- 本地开发环境
+- 开发服务器：用于团队内部测试
+
+### 6.2 测试环境
+- 功能测试环境
+- 性能测试环境
+
+### 6.3 生产环境
+- Web服务器：Nginx
+- 应用服务器：Gunicorn (FastAPI)
+- 数据库服务器：MySQL
+- 文件存储：对象存储服务(如阿里云OSS)
+
+
+## 7. 监控与日志
+
+### 7.1 应用监控
+- 性能监控：响应时间、请求量、错误率
+- 资源监控：CPU、内存、磁盘使用率
+- 异常监控：错误日志、崩溃报告
+
+### 7.2 日志管理
+- 应用日志：记录应用运行状态和错误
+- 访问日志：记录API访问情况
+- 安全日志：记录安全相关事件
+- 日志轮转：按日期和大小进行日志轮转
+
+
+## 8. 扩展性考虑
+
+### 8.1 水平扩展
+- API服务无状态设计，便于水平扩展
+- 使用负载均衡分发请求
+
+### 8.2 垂直扩展
+- 根据需求增加服务器资源(CPU、内存)
+
+### 8.3 功能扩展
+- 模块化设计，便于添加新功能
+- API版本控制，支持API演进
+

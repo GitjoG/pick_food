@@ -1,0 +1,184 @@
+/* 首页样式 */
+.container {
+  padding: 20rpx;
+}
+
+/* 顶部导航栏 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.notification-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+/* 营养概览卡片 */
+.nutrition-overview {
+  margin-bottom: 30rpx;
+}
+
+.nutrition-content {
+  padding: 10rpx 0;
+}
+
+.calorie-progress {
+  margin-bottom: 20rpx;
+}
+
+.progress-label {
+  font-size: 28rpx;
+  margin-bottom: 10rpx;
+}
+
+.progress-bar-container {
+  height: 30rpx;
+  background-color: #f0f0f0;
+  border-radius: 15rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #1aad19;
+  border-radius: 15rpx;
+}
+
+.progress-value {
+  text-align: right;
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 6rpx;
+}
+
+.nutrients-progress {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20rpx;
+}
+
+.nutrient-item {
+  font-size: 28rpx;
+  margin-right: 30rpx;
+  margin-bottom: 10rpx;
+}
+
+.remaining-calories {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #1aad19;
+  margin-top: 10rpx;
+}
+
+/* 快捷功能卡片 */
+.quick-functions {
+  margin-bottom: 30rpx;
+}
+
+.function-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.function-item {
+  width: 48%;
+  background-color: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.05);
+}
+
+.function-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 20rpx;
+}
+
+.function-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.function-name {
+  font-size: 28rpx;
+}
+
+/* 食物记录卡片 */
+.food-records {
+  margin-bottom: 30rpx;
+}
+
+.no-records {
+  text-align: center;
+  padding: 40rpx 0;
+  color: #999;
+}
+
+.view-more {
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  color: #1aad19;
+  border-top: 1rpx solid #f0f0f0;
+  margin-top: 10rpx;
+}
+
+/* 推荐食物组合卡片 */
+.food-recommendations {
+  margin-bottom: 30rpx;
+}
+
+.recommendation-item {
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.recommendation-header {
+  margin-bottom: 10rpx;
+}
+
+.recommendation-type {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.recommendation-content {
+  border-left: 4rpx solid #e0e0e0;
+  padding-left: 16rpx;
+}
+
+.food-list {
+  margin-bottom: 10rpx;
+}
+
+.food-item {
+  font-size: 26rpx;
+  margin-bottom: 6rpx;
+}
+
+.recommendation-calories {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.no-recommendations {
+  text-align: center;
+  padding: 40rpx 0;
+  color: #999;
+} 

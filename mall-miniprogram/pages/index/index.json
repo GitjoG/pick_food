@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "热量定制",
+  "usingComponents": {
+    "nutrition-bar": "/components/nutrition-bar/nutrition-bar",
+    "meal-record": "/components/meal-record/meal-record"
+  }
+} 

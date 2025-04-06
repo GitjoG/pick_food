@@ -1,0 +1,43 @@
+.meal-record {
+  background-color: #fff;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.meal-header {
+  margin-bottom: 10rpx;
+}
+
+.meal-type {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.meal-time {
+  font-size: 24rpx;
+  color: #666;
+  margin-left: 10rpx;
+}
+
+.meal-content {
+  border-left: 4rpx solid #f0f0f0;
+  padding-left: 16rpx;
+}
+
+.food-list {
+  margin-bottom: 10rpx;
+}
+
+.food-item {
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.meal-calories {
+  font-size: 24rpx;
+  color: #666;
+} 

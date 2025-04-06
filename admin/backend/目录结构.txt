@@ -1,0 +1,17 @@
+backend/
+├── app.py
+├── config.py
+├── models/
+│   ├── __init__.py
+│   ├── user.py
+│   ├── restaurant.py
+│   ├── recommendation.py
+│   ├── statistics.py
+│   └── settings.py
+└── routes/
+    ├── __init__.py
+    ├── users.py
+    ├── restaurants.py
+    ├── recommendation.py
+    ├── statistics.py
+    └── settings.py 

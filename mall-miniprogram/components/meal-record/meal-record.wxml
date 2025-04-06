@@ -1,0 +1,16 @@
+<view class="meal-record" bindtap="onTapMeal">
+  <view class="meal-header">
+    <text class="meal-type">{{mealType}}</text>
+    <text class="meal-time" wx:if="{{mealTime}}">({{mealTime}})</text>
+  </view>
+  <view class="meal-content">
+    <view class="food-list">
+      <view class="food-item" wx:for="{{foods}}" wx:key="index">
+        <text>{{item.name}}{{item.quantity ? ' (' + item.quantity + ')' : ''}}</text>
+      </view>
+    </view>
+    <view class="meal-calories">
+      <text>热量: {{calories}}千卡</text>
+    </view>
+  </view>
+</view> 

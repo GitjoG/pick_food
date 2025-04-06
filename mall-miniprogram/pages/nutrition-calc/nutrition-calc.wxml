@@ -1,0 +1,165 @@
+<!-- 营养目标计算页面 -->
+<view class="container">
+  <view class="header">
+    <view class="title">营养目标计算</view>
+  </view>
+
+  <view class="card" wx:if="{{!showResult}}">
+    <view class="card-title">身体数据</view>
+    
+    <!-- 错误提示 -->
+    <view class="error-message" wx:if="{{errorMsg}}">
+      <text>{{errorMsg}}</text>
+    </view>
+    
+    <!-- 身体数据表单 -->
+    <view class="form-group">
+      <view class="form-item">
+        <text class="label">身高 (cm)</text>
+        <input 
+          class="input" 
+          type="digit" 
+          placeholder="请输入身高" 
+          value="{{userInfo.height}}"
+          data-field="height"
+          bindinput="handleInputChange"
+        />
+      </view>
+      
+      <view class="form-item">
+        <text class="label">体重 (kg)</text>
+        <input 
+          class="input" 
+          type="digit" 
+          placeholder="请输入体重" 
+          value="{{userInfo.weight}}"
+          data-field="weight"
+          bindinput="handleInputChange"
+        />
+      </view>
+      
+      <view class="form-item">
+        <text class="label">年龄</text>
+        <input 
+          class="input" 
+          type="number" 
+          placeholder="请输入年龄" 
+          value="{{userInfo.age}}"
+          data-field="age"
+          bindinput="handleInputChange"
+        />
+      </view>
+      
+      <view class="form-item">
+        <text class="label">性别</text>
+        <radio-group class="radio-group" data-field="gender" bindchange="handleRadioChange">
+          <label class="radio">
+            <radio value="male" checked="{{userInfo.gender === 'male'}}" />
+            <text>男</text>
+          </label>
+          <label class="radio">
+            <radio value="female" checked="{{userInfo.gender === 'female'}}" />
+            <text>女</text>
+          </label>
+        </radio-group>
+      </view>
+      
+      <view class="form-item">
+        <text class="label">活动量</text>
+        <picker 
+          mode="selector" 
+          range="{{activityOptions}}" 
+          range-key="label"
+          value="{{activityLevelIndex}}"
+          data-field="activity_level"
+          bindchange="handleRadioChange"
+        >
+          <view class="picker">
+            {{activityOptions[activityLevelIndex].label}}
+          </view>
+        </picker>
+      </view>
+      
+      <view class="form-item">
+        <text class="label">目标</text>
+        <picker 
+          mode="selector" 
+          range="{{goalOptions}}" 
+          range-key="label"
+          value="{{goalIndex}}"
+          data-field="goal"
+          bindchange="handleRadioChange"
+        >
+          <view class="picker">
+            {{goalOptions[goalIndex].label}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    
+    <!-- 提交按钮 -->
+    <view class="button-container">
+      <button 
+        class="btn-primary" 
+        bindtap="handleSubmit" 
+        loading="{{calculating}}" 
+        disabled="{{calculating}}"
+      >
+        计算营养目标
+      </button>
+    </view>
+  </view>
+  
+  <!-- 计算结果 -->
+  <view class="card" wx:if="{{showResult}}">
+    <view class="card-title">计算结果</view>
+    
+    <view class="result-container">
+      <view class="result-item">
+        <text class="result-label">基础代谢率 (BMR)</text>
+        <text class="result-value">{{nutritionGoals.bmr}} 千卡/天</text>
+      </view>
+      
+      <view class="result-item">
+        <text class="result-label">总能量消耗 (TDEE)</text>
+        <text class="result-value">{{nutritionGoals.tdee}} 千卡/天</text>
+      </view>
+      
+      <view class="result-item highlight">
+        <text class="result-label">热量目标</text>
+        <text class="result-value">{{nutritionGoals.calories}} 千卡/天</text>
+      </view>
+      
+      <view class="result-item">
+        <text class="result-label">蛋白质</text>
+        <text class="result-value">{{nutritionGoals.protein}} 克/天</text>
+      </view>
+      
+      <view class="result-item">
+        <text class="result-label">脂肪</text>
+        <text class="result-value">{{nutritionGoals.fat}} 克/天</text>
+      </view>
+      
+      <view class="result-item">
+        <text class="result-label">碳水化合物</text>
+        <text class="result-value">{{nutritionGoals.carbs}} 克/天</text>
+      </view>
+    </view>
+    
+    <view class="result-tips">
+      <text class="tips-title">小贴士</text>
+      <text class="tips-content">
+        • 基础代谢率(BMR)是指身体在完全休息状态下消耗的能量
+        • 总能量消耗(TDEE)是考虑了日常活动后的总消耗
+        • 热量目标是根据您的目标(减脂/维持/增肌)调整后的推荐摄入量
+      </text>
+    </view>
+    
+    <!-- 返回按钮 -->
+    <view class="button-container">
+      <button class="btn-primary" bindtap="navigateToHome">
+        返回首页
+      </button>
+    </view>
+  </view>
+</view> 

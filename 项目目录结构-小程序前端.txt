@@ -1,0 +1,88 @@
+# 热量定制小程序前端目录结构
+
+miniprogram/
+├── app.js # 小程序入口文件
+├── app.json # 小程序全局配置
+├── app.wxss # 小程序全局样式
+├── project.config.json # 项目配置文件
+├── sitemap.json # 小程序索引配置
+├── assets/ # 静态资源
+│ ├── images/ # 图片资源
+│ └── icons/ # 图标资源
+├── components/ # 公共组件
+│ ├── food-item/ # 食物项组件
+│ ├── nutrition-bar/ # 营养进度条组件
+│ ├── restaurant-card/ # 餐厅卡片组件
+│ └── meal-record/ # 餐食记录组件
+├── models/ # 数据模型
+│ ├── user.js # 用户模型
+│ ├── nutrition.js # 营养模型
+│ ├── restaurant.js # 餐厅模型
+│ └── food.js # 食物模型
+├── pages/ # 页面
+│ ├── index/ # 首页
+│ │ ├── index.js
+│ │ ├── index.json
+│ │ ├── index.wxml
+│ │ └── index.wxss
+│ ├── login/ # 登录页
+│ │ ├── login.js
+│ │ ├── login.json
+│ │ ├── login.wxml
+│ │ └── login.wxss
+│ ├── register/ # 注册页
+│ │ ├── register.js
+│ │ ├── register.json
+│ │ ├── register.wxml
+│ │ └── register.wxss
+│ ├── nutrition-calc/ # 营养目标计算页
+│ │ ├── nutrition-calc.js
+│ │ ├── nutrition-calc.json
+│ │ ├── nutrition-calc.wxml
+│ │ └── nutrition-calc.wxss
+│ ├── restaurant-select/ # 餐厅选择页
+│ │ ├── restaurant-select.js
+│ │ ├── restaurant-select.json
+│ │ ├── restaurant-select.wxml
+│ │ └── restaurant-select.wxss
+│ ├── food-recommend/ # 食物推荐页
+│ │ ├── food-recommend.js
+│ │ ├── food-recommend.json
+│ │ ├── food-recommend.wxml
+│ │ └── food-recommend.wxss
+│ ├── food-adjust/ # 食物调整页
+│ │ ├── food-adjust.js
+│ │ ├── food-adjust.json
+│ │ ├── food-adjust.wxml
+│ │ └── food-adjust.wxss
+│ ├── food-record/ # 食物记录页
+│ │ ├── food-record.js
+│ │ ├── food-record.json
+│ │ ├── food-record.wxml
+│ │ └── food-record.wxss
+│ ├── add-record/ # 添加记录页
+│ │ ├── add-record.js
+│ │ ├── add-record.json
+│ │ ├── add-record.wxml
+│ │ └── add-record.wxss
+│ └── profile/ # 个人中心页
+│ ├── profile.js
+│ ├── profile.json
+│ ├── profile.wxml
+│ └── profile.wxss
+├── services/ # 服务
+│ ├── api.js # API接口封装
+│ ├── auth.js # 认证服务
+│ ├── nutrition.js # 营养计算服务
+│ ├── recommendation.js # 推荐服务
+│ └── record.js # 记录服务
+├── utils/ # 工具函数
+│ ├── util.js # 通用工具函数
+│ ├── validator.js # 数据验证
+│ ├── format.js # 格式化工具
+│ └── storage.js # 本地存储工具
+└── store/ # 状态管理
+├── index.js # 状态管理入口
+├── user.js # 用户状态
+├── nutrition.js # 营养状态
+└── record.js # 记录状态

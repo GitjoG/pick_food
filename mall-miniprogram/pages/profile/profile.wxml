@@ -1,0 +1,95 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <block wx:if="{{hasUserInfo}}">
+      <view class="user-info">
+        <image class="avatar" src="{{userInfo.avatarUrl || '/assets/icons/default-avatar.png'}}"></image>
+        <view class="user-detail">
+          <text class="nickname">{{userInfo.nickName || '用户名'}}</text>
+          <view class="user-data" wx:if="{{userInfo.height && userInfo.weight}}">
+            <text>{{userInfo.height}}cm / {{userInfo.weight}}kg</text>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="user-info-placeholder">
+        <image class="avatar" src="/assets/icons/default-avatar.png"></image>
+        <view class="login-btn-container">
+          <button 
+            class="login-btn" 
+            bindtap="getUserProfile" 
+            wx:if="{{canIUseGetUserProfile}}"
+          >点击登录授权</button>
+          <button 
+            class="login-btn" 
+            open-type="getUserInfo" 
+            bindgetuserinfo="getUserInfo" 
+            wx:else
+          >点击登录授权</button>
+        </view>
+      </view>
+    </block>
+  </view>
+  
+  <!-- 营养目标卡片 -->
+  <view class="card nutrition-card" wx:if="{{nutritionGoals}}" bindtap="handleSettingTap" data-url="/pages/nutrition-calc/nutrition-calc">
+    <view class="card-header">
+      <view class="card-title">
+        我的营养目标
+        <view class="arrow-icon-modern"></view>
+      </view>
+    </view>
+    <view class="nutrition-goals">
+      <view class="nutrition-item">
+        <text class="nutrition-label">热量</text>
+        <text class="nutrition-value">{{nutritionGoals.calories}} 千卡</text>
+      </view>
+      <view class="nutrition-item">
+        <text class="nutrition-label">蛋白质</text>
+        <text class="nutrition-value">{{nutritionGoals.protein}} 克</text>
+      </view>
+      <view class="nutrition-item">
+        <text class="nutrition-label">脂肪</text>
+        <text class="nutrition-value">{{nutritionGoals.fat}} 克</text>
+      </view>
+      <view class="nutrition-item">
+        <text class="nutrition-label">碳水</text>
+        <text class="nutrition-value">{{nutritionGoals.carbs}} 克</text>
+      </view>
+    </view>
+    <view class="nutrition-tips" wx:if="{{nutritionGoals.bmr}}">
+      <text>基础代谢率(BMR): {{nutritionGoals.bmr}} 千卡</text>
+    </view>
+  </view>
+  
+  <!-- 设置列表 -->
+  <view class="card settings-card">
+    <view class="settings-list">
+      <view 
+        class="settings-item" 
+        wx:for="{{settingsList}}" 
+        wx:key="id"
+        data-url="{{item.url}}"
+        bindtap="handleSettingTap"
+      >
+        <view class="settings-item-left">
+          <image class="settings-icon" src="{{item.icon}}"></image>
+          <text class="settings-text">{{item.text}}</text>
+        </view>
+        <view class="arrow-icon-modern"></view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 退出登录按钮 -->
+  <view class="logout-container" wx:if="{{hasUserInfo}}">
+    <button class="logout-btn" bindtap="handleLogout">退出登录</button>
+  </view>
+  
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text>热量定制 v1.0.0</text>
+  </view>
+</view>

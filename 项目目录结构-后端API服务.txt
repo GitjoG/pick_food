@@ -1,0 +1,38 @@
+backend/
+├── app/                      # 应用主目录
+│   ├── __init__.py           # 初始化文件
+│   ├── main.py               # 应用入口
+│   ├── config.py             # 配置管理
+│   ├── database.py           # 数据库连接
+│   ├── models/               # 数据模型
+│   │   ├── __init__.py
+│   │   ├── user.py           # 用户模型
+│   │   ├── food.py           # 食物模型
+│   │   ├── restaurant.py     # 餐厅模型
+│   │   └── record.py         # 记录模型
+│   ├── api/                  # API路由
+│   │   ├── __init__.py
+│   │   ├── v1/               # API v1版本
+│   │   │   ├── __init__.py
+│   │   │   ├── user.py       # 用户相关API
+│   │   │   ├── nutrition.py  # 营养计算API
+│   │   │   ├── restaurant.py # 餐厅相关API
+│   │   │   ├── recommendation.py  # 推荐API
+│   │   │   └── record.py     # 记录API
+│   ├── services/             # 业务逻辑服务
+│   │   ├── __init__.py
+│   │   ├── user_service.py   # 用户服务
+│   │   ├── nutrition_service.py  # 营养计算服务
+│   │   ├── recommendation_service.py  # 推荐服务
+│   │   └── record_service.py # 记录服务
+│   ├── schemas/              # 数据验证和序列化
+│   │   ├── __init__.py
+│   │   ├── user.py           # 用户相关模式
+│   │   ├── food.py           # 食物相关模式
+│   │   └── record.py         # 记录相关模式
+│   └── utils/                # 工具函数
+│       ├── __init__.py
+│       └── security.py       # 安全相关工具
+├── requirements.txt          # 依赖列表
+├── .env                      # 环境变量
+└── README.md                 # 项目说明

@@ -1,0 +1,74 @@
+calorie-custom-admin/
+├── backend/                  # Flask后端
+│   ├── app.py                # 主应用入口
+│   ├── config.py             # 配置文件
+│   ├── models/               # 数据模型
+│   │   ├── __init__.py
+│   │   ├── user.py           # 用户相关模型
+│   │   ├── restaurant.py     # 餐厅相关模型
+│   │   ├── recommendation.py # 推荐相关模型
+│   │   ├── statistics.py     # 统计相关模型
+│   │   └── settings.py       # 设置相关模型
+│   ├── routes/               # API路由
+│   │   ├── __init__.py
+│   │   ├── users.py          # 用户管理API
+│   │   ├── restaurants.py    # 餐厅管理API
+│   │   ├── recommendation.py # 推荐管理API
+│   │   ├── statistics.py     # 统计分析API
+│   │   └── settings.py       # 系统设置API
+│   ├── services/             # 业务逻辑
+│   │   ├── __init__.py
+│   │   ├── user_service.py
+│   │   ├── restaurant_service.py
+│   │   ├── recommendation_service.py
+│   │   ├── statistics_service.py
+│   │   └── settings_service.py
+│   └── utils/                # 工具函数
+│       ├── __init__.py
+│       ├── auth.py           # 认证相关
+│       └── helpers.py        # 辅助函数
+├── frontend/                 # Vue.js前端
+│   ├── public/
+│   │   ├── index.html
+│   │   └── favicon.ico
+│   ├── src/
+│   │   ├── assets/           # 静态资源
+│   │   │   ├── logo.png
+│   │   │   └── icons/        # 图标文件
+│   │   ├── components/       # 组件
+│   │   │   ├── common/       # 通用组件
+│   │   │   ├── users/        # 用户管理组件
+│   │   │   ├── restaurants/  # 餐厅管理组件
+│   │   │   ├── recommendation/ # 推荐管理组件
+│   │   │   ├── statistics/   # 统计分析组件
+│   │   │   └── settings/     # 系统设置组件
+│   │   ├── views/            # 页面视图
+│   │   │   ├── Login.vue     # 登录页
+│   │   │   ├── Dashboard.vue # 仪表盘
+│   │   │   ├── users/        # 用户管理页面
+│   │   │   ├── restaurants/  # 餐厅管理页面
+│   │   │   ├── recommendation/ # 推荐管理页面
+│   │   │   ├── statistics/   # 统计分析页面
+│   │   │   └── settings/     # 系统设置页面
+│   │   ├── router/           # 路由
+│   │   │   └── index.js
+│   │   ├── store/            # Vuex状态管理
+│   │   │   ├── index.js
+│   │   │   ├── modules/
+│   │   │   │   ├── user.js
+│   │   │   │   ├── restaurant.js
+│   │   │   │   ├── recommendation.js
+│   │   │   │   ├── statistics.js
+│   │   │   │   └── settings.js
+│   │   ├── api/              # API调用
+│   │   │   ├── index.js
+│   │   │   ├── users.js
+│   │   │   ├── restaurants.js
+│   │   │   ├── recommendation.js
+│   │   │   ├── statistics.js
+│   │   │   └── settings.js
+│   │   ├── App.vue
+│   │   └── main.js
+│   ├── package.json
+│   └── vue.config.js
+└── README.md 

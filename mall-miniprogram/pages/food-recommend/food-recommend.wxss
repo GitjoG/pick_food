@@ -1,0 +1,141 @@
+/* pages/food-recommend/food-recommend.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* 顶部导航栏 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80rpx;
+  margin-bottom: 30rpx;
+}
+
+.back-icon, .more-icon {
+  width: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+/* 卡片通用样式 */
+.card {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+/* 独立标题 */
+.card-title.standalone {
+  background-color: #fff;
+  border-radius: 12rpx 12rpx 0 0;
+  padding: 20rpx;
+  margin-bottom: 0;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 营养目标 */
+.nutrition-goals, .total-nutrition {
+  padding: 10rpx 0;
+}
+
+.calories-goal, .calories-total {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.macros-goal, .macros-total {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 偏好设置 */
+.preference-item {
+  margin-bottom: 20rpx;
+}
+
+.preference-label {
+  font-size: 28rpx;
+  margin-bottom: 10rpx;
+}
+
+.picker {
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+}
+
+/* 按钮 */
+.action-btn {
+  background-color: #1aad19;
+  color: #fff;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 40rpx;
+  margin: 40rpx 0 20rpx;
+  font-size: 32rpx;
+}
+
+/* 推荐结果 */
+.recommendation-header {
+  font-size: 32rpx;
+  font-weight: bold;
+  padding: 10rpx 0 20rpx;
+}
+
+.food-list {
+  margin-bottom: 20rpx;
+}
+
+.restaurant-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin: 10rpx 0 15rpx;
+}
+
+.food-item {
+  background-color: #f9f9f9;
+  border-radius: 8rpx;
+  padding: 15rpx;
+  margin-bottom: 15rpx;
+  border-left: 5rpx solid #4cd964;
+}
+
+.food-name {
+  font-size: 28rpx;
+  margin-bottom: 10rpx;
+}
+
+.food-nutrition {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nutrition-detail {
+  font-size: 24rpx;
+  color: #666;
+  margin-right: 20rpx;
+  margin-bottom: 5rpx;
+} 

@@ -1,0 +1,19 @@
+frontend/
+├── public/
+│   ├── index.html
+│   └── favicon.ico
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   └── common/
+│   │       └── Breadcrumb.vue
+│   ├── router/
+│   │   └── index.js
+│   ├── views/
+│   │   ├── Layout.vue
+│   │   └── Login.vue
+│   ├── App.vue
+│   └── main.js
+├── .env
+├── package.json
+└── vue.config.js 

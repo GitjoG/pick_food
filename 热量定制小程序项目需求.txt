@@ -1,0 +1,171 @@
+这是一个小程序项目，主要功能是根据用户输入的热量需求，推荐食物组合。
+这个项目包含三个子项目，分别是：
+1. 小程序前端（微信小程序原生）
+   - 开发框架：微信小程序原生框架
+
+2. 小程序后台管理系统（前后端一体化）
+   - 前端技术栈：Vue.js + Element UI
+   - 后端技术栈：Python + Flask
+  
+
+3. 前端的后端API服务
+   - 技术栈：Python + Flask/FastAPI
+  
+
+
+三个服务的功能
+1.小程序前端：
+    1 用户营养目标计算
+        1.1 用户输入身高、体重、年龄、性别、活动量等基础信息
+        1.2 根据用户输入的基础信息，计算用户的基础代谢率、总能量消耗、蛋白质、脂肪、碳水化合物的需求量
+        1.3 根据用户输入的基础信息，计算用户的热量需求和热量缺口
+      
+    2 附近餐厅选项
+        2.1 列出支持的餐厅列表，用户选择可用餐厅
+       
+
+    3 食物推荐
+        3.1 用户选择今日想吃/不想吃的餐厅（可选）
+        3.2 用户选择这一餐占一天的比例（可选）（有默认）
+        3.3 根据用户的热量需求和热量缺口和用户选择，推荐食物组合
+        3.4 用户调整食物组合
+ 
+        
+    4 食物记录
+        4.1 用户当日食物，热量记录
+        4.2 用户当日剩余热量，营养记录
+        4.3 用户自己摄入的热量记录
+    5 我的
+        5.1 用户信息管理
+        5.2 用户设置
+            营养目标重新计算
+            附近餐厅重新选择
+        5.3 用户反馈
+        5.4 用户退出登录
+
+2. 小程序后台管理系统
+    1 用户数据管理
+        1.1 查看用户基本信息（身高、体重、年龄、性别等）
+            API: /admin/api/users/list
+                功能：获取用户列表，支持分页和筛选
+            API: /admin/api/users/{user_id}
+                功能：获取指定用户的详细信息
+        1.2 查看用户营养目标（基础代谢率、总能量消耗、三大营养素需求）
+            API: /admin/api/users/{user_id}/nutrition-goals
+                功能：获取指定用户的营养目标信息
+        1.3 查看用户热量记录（每日摄入、剩余热量）
+            API: /admin/api/users/{user_id}/calorie-records
+                功能：获取用户热量记录，支持日期范围筛选
+        1.4 查看用户饮食偏好记录
+            API: /admin/api/users/{user_id}/preferences
+                功能：获取用户饮食偏好记录
+
+    2 餐厅管理
+        2.1 餐厅信息管理（新增、编辑、删除）
+            API: /admin/api/restaurants/list
+                功能：获取餐厅列表，支持分页和筛选
+            API: /admin/api/restaurants/create
+                功能：创建新餐厅
+            API: /admin/api/restaurants/{restaurant_id}
+                功能：获取、更新或删除指定餐厅信息
+        2.2 餐厅菜单管理（菜品信息、营养成分）
+            API: /admin/api/restaurants/{restaurant_id}/menu
+                功能：获取指定餐厅的菜单列表
+            API: /admin/api/restaurants/{restaurant_id}/menu/create
+                功能：为指定餐厅添加菜品
+            API: /admin/api/restaurants/{restaurant_id}/menu/{food_id}
+                功能：获取、更新或删除指定菜品信息
+        
+    3 食物推荐管理
+        3.1 推荐算法参数配置
+            API: /admin/api/recommendation/algorithm-params
+                功能：获取和更新推荐算法参数
+        3.2 推荐规则管理（热量分配比例、营养配比）
+            API: /admin/api/recommendation/rules/list
+                功能：获取推荐规则列表
+            API: /admin/api/recommendation/rules/create
+                功能：创建新的推荐规则
+            API: /admin/api/recommendation/rules/{rule_id}
+                功能：获取、更新或删除指定推荐规则
+        3.3 推荐结果审核与调整
+            API: /admin/api/recommendation/results/list
+                功能：获取推荐结果列表，支持筛选
+            API: /admin/api/recommendation/results/{result_id}/approve
+                功能：审核通过指定推荐结果
+            API: /admin/api/recommendation/results/{result_id}/adjust
+                功能：调整指定推荐结果
+
+    4 数据统计与分析
+        4.1 用户营养目标达成情况统计
+            API: /admin/api/statistics/nutrition-goals
+                功能：获取用户营养目标达成情况统计数据
+            API: /admin/api/statistics/nutrition-goals/export
+                功能：导出用户营养目标达成情况统计数据
+        4.2 用户饮食偏好分析
+            API: /admin/api/statistics/user-preferences
+                功能：获取用户饮食偏好分析数据
+            API: /admin/api/statistics/popular-foods
+                功能：获取最受欢迎食物统计数据
+     
+       
+    5 系统设置
+        5.1 营养计算参数配置
+            API: /admin/api/settings/nutrition-params
+                功能：获取和更新营养计算参数
+        5.2 系统通知管理
+            API: /admin/api/settings/notifications/list
+                功能：获取系统通知列表
+            API: /admin/api/settings/notifications/create
+                功能：创建新的系统通知
+            API: /admin/api/settings/notifications/{notification_id}
+                功能：获取、更新或删除指定系统通知
+        5.3 用户反馈处理
+            API: /admin/api/settings/feedback/list
+                功能：获取用户反馈列表，支持筛选
+            API: /admin/api/settings/feedback/{feedback_id}
+                功能：获取指定用户反馈详情
+            API: /admin/api/settings/feedback/{feedback_id}/respond
+                功能：回复用户反馈
+
+3. 前端的后端API服务
+    1 用户营养目标计算API
+        1.1 /api/user/calculateBMR
+            功能：根据用户信息计算基础代谢率
+        1.2 /api/user/calculateTDEE
+            功能：根据用户信息计算总能量消耗
+        1.3 /api/user/calculateNutrients
+            功能：计算蛋白质、脂肪、碳水化合物需求量
+        1.4 /api/user/calculateCalorie
+            功能：计算用户热量需求和热量缺口
+
+    2 餐厅管理API
+        2.1 /api/restaurant/list
+            功能：获取支持的餐厅列表
+        2.2 /api/restaurant/menu
+            功能：获取指定餐厅的菜单信息
+
+    3 食物推荐API
+        3.1 /api/recommendation/generate
+            功能：根据用户需求和选择生成食物推荐
+        3.2 /api/recommendation/adjust
+            功能：调整推荐的食物组合
+
+    4 食物记录API
+        4.1 /api/record/add
+            功能：添加用户当日食物记录
+        4.2 /api/record/update
+            功能：更新用户食物记录
+        4.3 /api/record/getDaily
+            功能：获取用户当日食物和热量记录
+        4.4 /api/record/getRemaining
+            功能：获取用户当日剩余热量和营养记录
+
+    5 用户管理API
+        5.1 /api/user/info
+            功能：获取和更新用户基本信息
+        5.2 /api/user/settings
+            功能：管理用户设置（营养目标、餐厅选择等）
+        5.3 /api/user/feedback
+            功能：提交用户反馈
+        5.4 /api/user/logout
+            功能：用户退出登录

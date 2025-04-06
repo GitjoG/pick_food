@@ -1,0 +1,321 @@
+<!--pages/food-record/food-record.wxml-->
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="header">
+    <view class="back-icon" bindtap="navigateBack">
+      <text class="iconfont icon-back"></text>
+    </view>
+    <view class="title">食物记录</view>
+    <view class="more-icon">
+      <text class="iconfont icon-more"></text>
+    </view>
+  </view>
+
+  <!-- 日期选择器 -->
+  <view class="date-selector" bindtouchstart="calendarTouchStart" bindtouchmove="calendarTouchMove" bindtouchend="calendarTouchEnd">
+    <!-- 周日历 -->
+    <view class="week-calendar" animation="{{weekAnimation}}">
+      <block wx:for="{{weekDays}}" wx:key="date">
+        <view class="calendar-day {{item.isToday ? 'today' : ''}} {{item.date === selectedDate ? 'selected' : ''}}" 
+              bindtap="selectWeekDay" data-index="{{index}}">
+          <view class="day-name">{{item.day}}</view>
+          <view class="day-number">{{item.number}}</view>
+          <view class="day-indicator" wx:if="{{item.hasRecord}}"></view>
+        </view>
+      </block>
+    </view>
+    
+    <!-- 展开按钮 -->
+    <view class="expand-button" bindtap="toggleMonthCalendar">
+      <view class="expand-line"></view>
+      <text class="expand-text">{{showMonthCalendar ? '收起' : '选择日期'}}</text>
+      <text class="expand-arrow">{{showMonthCalendar ? '↑' : '↓'}}</text>
+      <view class="expand-line"></view>
+    </view>
+    
+    <!-- 月日历 -->
+    <view class="month-calendar" wx:if="{{showMonthCalendar}}" animation="{{monthAnimation}}">
+      <view class="month-header">
+        <view class="month-nav" bindtap="prevMonth" hover-class="month-nav-hover" hover-stay-time="150">
+          <text>←</text>
+        </view>
+        <view style="display: flex; align-items: center;">
+          <view class="month-title">{{currentYearMonth}}</view>
+          <view class="today-btn" bindtap="goToToday">今天</view>
+        </view>
+        <view class="month-nav" bindtap="nextMonth" hover-class="month-nav-hover" hover-stay-time="150">
+          <text>→</text>
+        </view>
+      </view>
+      
+      <view class="month-weekdays">
+        <view wx:for="{{['日', '一', '二', '三', '四', '五', '六']}}" wx:key="*this" class="weekday">{{item}}</view>
+      </view>
+      
+      <view class="month-days">
+        <block wx:for="{{monthDays}}" wx:key="fullDate">
+          <view class="month-day {{item.isCurrentMonth ? '' : 'other-month'}} {{item.isToday ? 'today' : ''}} {{item.fullDate === selectedDate ? 'selected' : ''}}"
+                bindtap="selectMonthDay" data-index="{{index}}">
+            {{item.day}}
+            <view class="month-day-indicator" wx:if="{{item.hasRecord}}"></view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 高级优化的营养信息卡片 -->
+  <view class="nutrition-card">
+    <view class="card-title">
+      <text class="card-title-text">今日营养摄入</text>
+      <view class="card-subtitle">目标完成情况</view>
+    </view>
+    
+    <view class="nutrition-grid">
+      <!-- 热量 -->
+      <view class="nutrition-item nutrition-item-calories">
+        <view class="water-container">
+          <view class="bubble bubble-1"></view>
+          <view class="bubble bubble-2"></view>
+          <view class="bubble bubble-3"></view>
+          <view class="water-ball">
+            <view class="water-level calories-water" style="height: {{nutritionData.calories.percentage > 100 ? 100 : nutritionData.calories.percentage}}%;">
+              <view class="water-wave"></view>
+            </view>
+            <view class="ball-info">
+              <view class="ball-value">{{nutritionData.calories.current}}</view>
+              <view class="ball-unit">千卡</view>
+              <view class="ball-percent {{nutritionData.calories.percentage > 105 ? 'percentage-warning' : ''}}">{{nutritionData.calories.percentage}}%</view>
+              <view class="ball-label">热量</view>
+            </view>
+          </view>
+        </view>
+        <view class="nutrition-info">
+          <view class="nutrition-remaining {{nutritionData.remaining < 0 ? 'nutrition-exceeded' : ''}}">
+            {{nutritionData.remaining < 0 ? '超额 ' + (-nutritionData.remaining) : '剩余 ' + nutritionData.remaining}}
+          </view>
+        </view>
+      </view>
+
+      <!-- 蛋白质 -->
+      <view class="nutrition-item nutrition-item-protein">
+        <view class="water-container">
+          <view class="bubble bubble-1"></view>
+          <view class="bubble bubble-2"></view>
+          <view class="bubble bubble-3"></view>
+          <view class="water-ball">
+            <view class="water-level protein-water" style="height: {{nutritionData.protein.percentage > 100 ? 100 : nutritionData.protein.percentage}}%;">
+              <view class="water-wave"></view>
+            </view>
+            <view class="ball-info">
+              <view class="ball-value">{{nutritionData.protein.current}}</view>
+              <view class="ball-unit">克</view>
+              <view class="ball-percent {{nutritionData.protein.percentage > 105 ? 'percentage-warning' : ''}}">{{nutritionData.protein.percentage}}%</view>
+              <view class="ball-label">蛋白质</view>
+            </view>
+          </view>
+        </view>
+        <view class="nutrition-info">
+          <view class="nutrition-remaining {{(nutritionData.protein.target - nutritionData.protein.current) < 0 ? 'nutrition-exceeded' : ''}}">
+            {{(nutritionData.protein.target - nutritionData.protein.current) < 0 ? '超额 ' + (-(nutritionData.protein.target - nutritionData.protein.current)) : '剩余 ' + (nutritionData.protein.target - nutritionData.protein.current)}}
+          </view>
+        </view>
+      </view>
+
+      <!-- 脂肪 -->
+      <view class="nutrition-item nutrition-item-fat">
+        <view class="water-container">
+          <view class="bubble bubble-1"></view>
+          <view class="bubble bubble-2"></view>
+          <view class="bubble bubble-3"></view>
+          <view class="water-ball">
+            <view class="water-level fat-water" style="height: {{nutritionData.fat.percentage > 100 ? 100 : nutritionData.fat.percentage}}%;">
+              <view class="water-wave"></view>
+            </view>
+            <view class="ball-info">
+              <view class="ball-value">{{nutritionData.fat.current}}</view>
+              <view class="ball-unit">克</view>
+              <view class="ball-percent {{nutritionData.fat.percentage > 105 ? 'percentage-warning' : ''}}">{{nutritionData.fat.percentage}}%</view>
+              <view class="ball-label">脂肪</view>
+            </view>
+          </view>
+        </view>
+        <view class="nutrition-info">
+          <view class="nutrition-remaining {{(nutritionData.fat.target - nutritionData.fat.current) < 0 ? 'nutrition-exceeded' : ''}}">
+            {{(nutritionData.fat.target - nutritionData.fat.current) < 0 ? '超额 ' + (-(nutritionData.fat.target - nutritionData.fat.current)) : '剩余 ' + (nutritionData.fat.target - nutritionData.fat.current)}}
+          </view>
+        </view>
+      </view>
+
+      <!-- 碳水 -->
+      <view class="nutrition-item nutrition-item-carbs">
+        <view class="water-container">
+          <view class="bubble bubble-1"></view>
+          <view class="bubble bubble-2"></view>
+          <view class="bubble bubble-3"></view>
+          <view class="water-ball">
+            <view class="water-level carbs-water" style="height: {{nutritionData.carbs.percentage > 100 ? 100 : nutritionData.carbs.percentage}}%;">
+              <view class="water-wave"></view>
+            </view>
+            <view class="ball-info">
+              <view class="ball-value">{{nutritionData.carbs.current}}</view>
+              <view class="ball-unit">克</view>
+              <view class="ball-percent {{nutritionData.carbs.percentage > 105 ? 'percentage-warning' : ''}}">{{nutritionData.carbs.percentage}}%</view>
+              <view class="ball-label">碳水</view>
+            </view>
+          </view>
+        </view>
+        <view class="nutrition-info">
+          <view class="nutrition-remaining {{(nutritionData.carbs.target - nutritionData.carbs.current) < 0 ? 'nutrition-exceeded' : ''}}">
+            {{(nutritionData.carbs.target - nutritionData.carbs.current) < 0 ? '超额 ' + (-(nutritionData.carbs.target - nutritionData.carbs.current)) : '剩余 ' + (nutritionData.carbs.target - nutritionData.carbs.current)}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日食物记录 -->
+  <view class="food-records">
+    <view class="card-title">
+      <text>今日食物记录</text>
+      <view class="title-buttons">
+        <view class="add-icon-btn" bindtap="showAddFoodRecord">
+          <text class="iconfont icon-add">➕</text>
+        </view>
+        <view class="edit-btn" bindtap="toggleEditMode">{{isEditMode ? '完成' : '编辑'}}</view>
+      </view>
+    </view>
+    
+    <block wx:for="{{foodRecords}}" wx:key="mealType" wx:for-index="mealIndex">
+      <view class="meal-section">
+        <view class="meal-header">{{item.mealType}} ({{item.mealTime}})</view>
+        
+        <block wx:for="{{item.foods}}" wx:for-item="food" wx:key="name" wx:for-index="foodIndex">
+          <view id="food-item-{{mealIndex}}-{{foodIndex}}" 
+                class="food-item {{isEditMode ? 'food-item-edit' : ''}}" 
+                data-meal-index="{{mealIndex}}" 
+                data-food-index="{{foodIndex}}"
+                bindtouchstart="dragStart" 
+                bindtouchmove="dragMove" 
+                bindtouchend="dragEnd"
+                bindtap="foodItemTap"
+                catch:touchmove="{{isEditMode ? 'catchTouchMove' : ''}}"
+                style="{{(isEditMode && dragMealIndex===mealIndex && dragFoodIndex===foodIndex) ? 'cursor: grabbing;' : ''}}"
+                >
+            <!-- 拖拽指示器 -->
+            <view class="food-edit-drag" wx:if="{{isEditMode}}">
+              <text class="iconfont icon-drag">≡</text>
+            </view>
+            
+            <view class="food-info">
+              <view class="food-name">{{food.name}} {{food.quantity ? '(' + food.quantity + ')' : ''}}</view>
+              <view class="food-nutrition">
+                <view class="nutrition-detail">热量: {{food.calories}}千卡</view>
+                <view class="nutrition-detail">蛋白质: {{food.protein}}g</view>
+                <view class="nutrition-detail">脂肪: {{food.fat}}g</view>
+                <view class="nutrition-detail">碳水: {{food.carbs}}g</view>
+              </view>
+            </view>
+            
+            <!-- 右侧编辑和删除按钮 -->
+            <view class="food-edit-controls" wx:if="{{isEditMode}}">
+              <view class="food-edit-button food-edit-modify" data-index="{{mealIndex}}" data-foodindex="{{foodIndex}}" bindtap="editFoodRecord">
+                <text class="iconfont icon-edit">✎</text>
+              </view>
+              <view class="food-edit-button food-edit-delete" data-recordid="{{food.recordId}}" bindtap="deleteFoodRecord">
+                <text class="iconfont icon-delete">✕</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </block>
+
+    <view class="meal-section" wx:if="{{!hasDinner}}">
+      <view class="meal-header">晚餐 (未记录)</view>
+    </view>
+  </view>
+</view>
+
+<!-- 添加食物记录弹窗 -->
+<view class="modal" wx:if="{{showAddModal}}" bindtap="hideAddFoodRecord">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-header">
+      <view class="back-icon" bindtap="hideAddFoodRecord">
+        <text class="iconfont icon-back"></text>
+      </view>
+      <view class="title">添加食物记录</view>
+      <view class="more-icon">
+        <text class="iconfont icon-more"></text>
+      </view>
+    </view>
+
+    <!-- 选择餐次 -->
+    <view class="modal-section">
+      <view class="section-title">选择餐次</view>
+      <picker bindchange="bindMealTypeChange" value="{{mealTypeIndex}}" range="{{mealTypes}}">
+        <view class="picker">
+          ▼ {{mealTypes[mealTypeIndex]}}
+        </view>
+      </picker>
+
+      <view class="time-picker">
+        <view class="time-label">时间:</view>
+        <picker mode="time" value="{{mealTime}}" bindchange="bindTimeChange">
+          <view class="picker">{{mealTime}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 选择食物来源 -->
+    <view class="modal-section">
+      <view class="section-title">选择食物来源</view>
+      <radio-group bindchange="bindFoodSourceChange">
+        <label class="radio-item">
+          <radio value="recommended" checked="{{foodSource === 'recommended'}}" />从推荐食物中选择
+        </label>
+        <label class="radio-item">
+          <radio value="restaurant" checked="{{foodSource === 'restaurant'}}" />从餐厅菜单中选择
+        </label>
+        <label class="radio-item">
+          <radio value="manual" checked="{{foodSource === 'manual'}}" />手动输入
+        </label>
+      </radio-group>
+    </view>
+
+    <!-- 手动输入食物 -->
+    <view class="modal-section" wx:if="{{foodSource === 'manual'}}">
+      <view class="section-title">手动输入食物</view>
+      
+      <view class="input-item">
+        <view class="input-label">食物名称</view>
+        <input class="input-field" placeholder="请输入食物名称" value="{{newFood.name}}" bindinput="bindFoodNameInput" />
+      </view>
+      
+      <view class="input-item">
+        <view class="input-label">热量 (千卡)</view>
+        <input class="input-field" type="number" placeholder="请输入热量" value="{{newFood.calories}}" bindinput="bindCaloriesInput" />
+      </view>
+      
+      <view class="input-item">
+        <view class="input-label">蛋白质 (g)</view>
+        <input class="input-field" type="number" placeholder="请输入蛋白质" value="{{newFood.protein}}" bindinput="bindProteinInput" />
+      </view>
+      
+      <view class="input-item">
+        <view class="input-label">脂肪 (g)</view>
+        <input class="input-field" type="number" placeholder="请输入脂肪" value="{{newFood.fat}}" bindinput="bindFatInput" />
+      </view>
+      
+      <view class="input-item">
+        <view class="input-label">碳水 (g)</view>
+        <input class="input-field" type="number" placeholder="请输入碳水" value="{{newFood.carbs}}" bindinput="bindCarbsInput" />
+      </view>
+    </view>
+
+    <!-- 添加记录按钮 -->
+    <view class="add-btn" bindtap="submitFoodRecord">
+      添加记录
+    </view>
+  </view>
+</view>

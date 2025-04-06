@@ -1,0 +1,180 @@
+<!--pages/food-recommend/food-recommend.wxml-->
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="header">
+    <view class="back-icon" bindtap="navigateBack">
+      <text class="iconfont icon-back"></text>
+    </view>
+    <view class="title">{{currentPage === 'params' ? '食物推荐' : (currentPage === 'results' ? '推荐食物组合' : '调整食物组合')}}</view>
+    <view class="more-icon">
+      <text class="iconfont icon-more"></text>
+    </view>
+  </view>
+
+  <!-- 食物推荐参数页面 -->
+  <block wx:if="{{currentPage === 'params'}}">
+    <!-- 今日营养目标 -->
+    <view class="card">
+      <view class="card-title">今日营养目标</view>
+      <view class="nutrition-goals">
+        <view class="calories-goal">热量: {{nutritionGoals.calories.toLocaleString()}} 千卡</view>
+        <view class="macros-goal">
+          蛋白质: {{nutritionGoals.protein}}g | 脂肪: {{nutritionGoals.fat}}g | 碳水: {{nutritionGoals.carbs}}g
+        </view>
+      </view>
+    </view>
+
+    <!-- 餐厅偏好 -->
+    <view class="card">
+      <view class="card-title">餐厅偏好</view>
+      <view class="preference-item">
+        <view class="preference-label">想吃:</view>
+        <picker bindchange="bindPreferredChange" value="{{preferredIndex}}" range="{{restaurants}}">
+          <view class="picker">
+            ▼ {{restaurants[preferredIndex] || '请选择'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="preference-item">
+        <view class="preference-label">不想吃:</view>
+        <picker bindchange="bindExcludedChange" value="{{excludedIndex}}" range="{{restaurants}}">
+          <view class="picker">
+            ▼ {{restaurants[excludedIndex] || '请选择'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 餐次占比 -->
+    <view class="card">
+      <view class="card-title">餐次占比</view>
+      <view class="preference-item">
+        <view class="preference-label">这一餐占全天热量的比例:</view>
+        <picker bindchange="bindRatioChange" value="{{ratioIndex}}" range="{{ratios}}">
+          <view class="picker">
+            ▼ {{ratios[ratioIndex]}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 生成推荐按钮 -->
+    <view class="action-btn" bindtap="generateRecommendation">
+      生成推荐
+    </view>
+  </block>
+
+  <!-- 食物推荐结果页面 -->
+  <block wx:elif="{{currentPage === 'results'}}">
+    <!-- 推荐食物组合卡片 -->
+    <view class="recommendation-header">
+      推荐食物组合 ({{totalNutrition.calories}}千卡, 占比{{mealRatio}})
+    </view>
+    
+    <view class="card food-list">
+      <block wx:for="{{recommendedFoods}}" wx:key="restaurant">
+        <view class="restaurant-name">{{item.restaurant}}</view>
+        
+        <block wx:for="{{item.foods}}" wx:for-item="food" wx:key="name">
+          <view class="food-item">
+            <view class="food-name">[+] {{food.name}}</view>
+            <view class="food-nutrition">
+              <view class="nutrition-detail">热量: {{food.calories}}千卡</view>
+              <view class="nutrition-detail">蛋白质: {{food.protein}}g</view>
+              <view class="nutrition-detail">脂肪: {{food.fat}}g</view>
+              <view class="nutrition-detail">碳水: {{food.carbs}}g</view>
+            </view>
+          </view>
+        </block>
+      </block>
+    </view>
+
+    <!-- 营养总计 -->
+    <view class="card">
+      <view class="card-title">营养总计</view>
+      <view class="total-nutrition">
+        <view class="calories-total">热量: {{totalNutrition.calories}}千卡</view>
+        <view class="macros-total">
+          蛋白质: {{totalNutrition.protein}}g | 脂肪: {{totalNutrition.fat}}g | 碳水: {{totalNutrition.carbs}}g
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-btn" bindtap="adjustCombination">
+      调整组合
+    </view>
+    
+    <view class="action-btn" bindtap="recordMeal">
+      记录这一餐
+    </view>
+  </block>
+
+  <!-- 食物组合调整页面 -->
+  <block wx:elif="{{currentPage === 'adjust'}}">
+    <!-- 当前组合 -->
+    <view class="recommendation-header">
+      当前组合 ({{totalNutrition.calories}}千卡)
+    </view>
+    
+    <view class="card food-list">
+      <block wx:for="{{recommendedFoods}}" wx:key="restaurant">
+        <view class="restaurant-name">{{item.restaurant}}</view>
+        
+        <block wx:for="{{item.foods}}" wx:for-item="food" wx:for-index="foodIndex" wx:key="name">
+          <view class="food-item">
+            <view class="food-name" bindtap="toggleFoodSelection" data-restaurant="{{item.restaurant}}" data-index="{{foodIndex}}">
+              [{{food.selected ? '✓' : ' '}}] {{food.name}}
+            </view>
+            <view class="food-nutrition">
+              <view class="nutrition-detail">热量: {{food.calories}}千卡</view>
+              <view class="nutrition-detail">蛋白质: {{food.protein}}g</view>
+              <view class="nutrition-detail">脂肪: {{food.fat}}g</view>
+              <view class="nutrition-detail">碳水: {{food.carbs}}g</view>
+            </view>
+          </view>
+        </block>
+      </block>
+    </view>
+
+    <!-- 可替换食物 -->
+    <view class="card-title standalone">可替换食物</view>
+    
+    <view class="card food-list">
+      <block wx:for="{{alternativeFoods}}" wx:key="restaurant">
+        <view class="restaurant-name">{{item.restaurant}}</view>
+        
+        <block wx:for="{{item.foods}}" wx:for-item="food" wx:for-index="foodIndex" wx:key="name">
+          <view class="food-item">
+            <view class="food-name" bindtap="toggleAlternativeSelection" data-restaurant="{{item.restaurant}}" data-index="{{foodIndex}}">
+              [{{food.selected ? '✓' : ' '}}] {{food.name}}
+            </view>
+            <view class="food-nutrition">
+              <view class="nutrition-detail">热量: {{food.calories}}千卡</view>
+              <view class="nutrition-detail">蛋白质: {{food.protein}}g</view>
+              <view class="nutrition-detail">脂肪: {{food.fat}}g</view>
+              <view class="nutrition-detail">碳水: {{food.carbs}}g</view>
+            </view>
+          </view>
+        </block>
+      </block>
+    </view>
+
+    <!-- 营养总计 -->
+    <view class="card">
+      <view class="card-title">营养总计</view>
+      <view class="total-nutrition">
+        <view class="calories-total">热量: {{totalNutrition.calories}}千卡</view>
+        <view class="macros-total">
+          蛋白质: {{totalNutrition.protein}}g | 脂肪: {{totalNutrition.fat}}g | 碳水: {{totalNutrition.carbs}}g
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-btn" bindtap="confirmAdjustment">
+      确认调整
+    </view>
+  </block>
+</view>

@@ -1,0 +1,128 @@
+<!-- 首页 -->
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="header">
+    <view class="title">热量定制</view>
+    <view class="notification">
+      <image src="/assets/icons/notification.png" mode="aspectFit" class="notification-icon"></image>
+    </view>
+  </view>
+
+  <!-- 今日营养概览 -->
+  <view class="card nutrition-overview">
+    <view class="card-title">今日营养概览</view>
+    <view class="nutrition-content">
+      <!-- 热量进度条 -->
+      <view class="calorie-progress">
+        <view class="progress-label">热量进度</view>
+        <view class="progress-bar-container">
+          <view class="progress-bar" style="width: {{nutritionOverview.calories.percentage}}%"></view>
+        </view>
+        <view class="progress-value">{{nutritionOverview.calories.current}}/{{nutritionOverview.calories.target}}</view>
+      </view>
+
+      <!-- 营养素进度 -->
+      <view class="nutrients-progress">
+        <view class="nutrient-item">
+          <text>蛋白质: {{nutritionOverview.protein.current}}/{{nutritionOverview.protein.target}}g</text>
+        </view>
+        <view class="nutrient-item">
+          <text>脂肪: {{nutritionOverview.fat.current}}/{{nutritionOverview.fat.target}}g</text>
+        </view>
+        <view class="nutrient-item">
+          <text>碳水: {{nutritionOverview.carbs.current}}/{{nutritionOverview.carbs.target}}g</text>
+        </view>
+      </view>
+
+      <!-- 今日剩余热量 -->
+      <view class="remaining-calories">
+        <text>今日剩余: {{nutritionOverview.remaining}}千卡</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷功能 -->
+  <view class="card quick-functions">
+    <view class="card-title">快捷功能</view>
+    <view class="function-grid">
+      <view class="function-item" bindtap="navigateToFoodRecommend">
+        <view class="function-icon">
+          <image src="/assets/icons/recommend.png" mode="aspectFit"></image>
+        </view>
+        <view class="function-name">食物推荐</view>
+      </view>
+      <view class="function-item" bindtap="navigateToAddRecord">
+        <view class="function-icon">
+          <image src="/assets/icons/record.png" mode="aspectFit"></image>
+        </view>
+        <view class="function-name">记录食物</view>
+      </view>
+      <view class="function-item" bindtap="navigateToNutritionCalc">
+        <view class="function-icon">
+          <image src="/assets/icons/nutrition.png" mode="aspectFit"></image>
+        </view>
+        <view class="function-name">营养目标</view>
+      </view>
+      <view class="function-item" bindtap="navigateToRestaurantSelect">
+        <view class="function-icon">
+          <image src="/assets/icons/restaurant.png" mode="aspectFit"></image>
+        </view>
+        <view class="function-name">附近餐厅</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日食物记录 -->
+  <view class="card food-records">
+    <view class="card-title">今日食物记录</view>
+    <view class="records-list">
+      <block wx:if="{{foodRecords.length > 0}}">
+        <meal-record 
+          wx:for="{{foodRecords}}" 
+          wx:key="mealType"
+          mealType="{{item.mealType}}"
+          mealTime="{{item.mealTime}}"
+          foods="{{item.foods}}"
+          calories="{{item.calories}}"
+          bindtap="handleMealTap"
+        />
+      </block>
+      <view wx:else class="no-records">
+        <text>今日暂无食物记录</text>
+      </view>
+    </view>
+    <view class="view-more" bindtap="navigateToFoodRecord">
+      <text>查看完整食物记录</text>
+    </view>
+  </view>
+
+  <!-- 推荐食物组合 -->
+  <view class="card food-recommendations">
+    <view class="card-title">推荐食物组合</view>
+    <view class="recommendations-list">
+      <block wx:if="{{foodRecommendations.length > 0}}">
+        <view class="recommendation-item" wx:for="{{foodRecommendations}}" wx:key="index">
+          <view class="recommendation-header">
+            <text class="recommendation-type">{{item.mealType}} (剩余热量: {{item.remainingCalories}}千卡)</text>
+          </view>
+          <view class="recommendation-content">
+            <view class="food-list">
+              <view class="food-item" wx:for="{{item.foods}}" wx:for-item="food" wx:key="index">
+                <text>{{food.name}}{{food.quantity ? ' (' + food.quantity + ')' : ''}}</text>
+              </view>
+            </view>
+            <view class="recommendation-calories">
+              <text>热量: {{item.calories}}千卡</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view wx:else class="no-recommendations">
+        <text>暂无推荐食物组合</text>
+      </view>
+    </view>
+    <view class="view-more" bindtap="navigateToMoreRecommendations">
+      <text>查看更多推荐</text>
+    </view>
+  </view>
+</view> 

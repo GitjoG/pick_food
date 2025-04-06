@@ -1,0 +1,9 @@
+<view class="nutrition-bar">
+  <view class="bar-container">
+    <view class="bar-progress" style="width: {{percentage}}%; background-color: {{color}};"></view>
+  </view>
+  <view class="bar-info" wx:if="{{showValue}}">
+    <text class="bar-label">{{label}}</text>
+    <text class="bar-value">{{current}}/{{target}}{{label ? '' : ''}}</text>
+  </view>
+</view> 

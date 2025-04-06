@@ -1,0 +1,234 @@
+/* 我的页面样式 */
+.container {
+  padding: 20rpx;
+}
+
+/* 用户信息卡片 */
+.user-card {
+  background-color: #1aad19;
+  border-radius: 12rpx;
+  padding: 40rpx 30rpx;
+  margin-bottom: 30rpx;
+  color: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(26, 173, 25, 0.2);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background-color: #fff;
+  border: 4rpx solid rgba(255, 255, 255, 0.6);
+}
+
+.avatar-wrapper {
+  background: none;
+  padding: 0;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  margin: 0;
+  line-height: normal;
+}
+
+.avatar-wrapper::after {
+  border: none;
+}
+
+.user-detail {
+  margin-left: 30rpx;
+}
+
+.nickname {
+  font-size: 36rpx;
+  font-weight: 500;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.user-data {
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+.user-info-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-btn-container {
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-hint {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10rpx;
+  text-align: center;
+}
+
+/* 登录按钮 */
+.login-btn {
+  background: linear-gradient(135deg, #1aad19, #4cd64a);
+  color: white;
+  font-size: 34rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  padding: 0;
+  border-radius: 8rpx;
+  border: none;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 20rpx;
+}
+
+/* 现代化箭头样式 */
+.arrow-icon-modern {
+  display: inline-block;
+  width: 12rpx;
+  height: 12rpx;
+  border-top: 2rpx solid #1aad19;
+  border-right: 2rpx solid #1aad19;
+  transform: rotate(45deg);
+  position: relative;
+  margin-left: 8rpx;
+}
+
+/* 新增 card-header 样式，用于标题和箭头的水平排列 */
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+}
+
+/* 箭头容器样式 */
+.card-arrow {
+  display: flex;
+  align-items: center;
+  padding: 6rpx;
+}
+
+/* 营养目标卡片 */
+.nutrition-card {
+  margin-bottom: 30rpx;
+}
+
+.nutrition-goals {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20rpx 0;
+}
+
+.nutrition-item {
+  width: 50%;
+  padding: 16rpx 0;
+  box-sizing: border-box;
+}
+
+.nutrition-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-right: 20rpx;
+}
+
+.nutrition-value {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.nutrition-tips {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 10rpx;
+  padding-top: 10rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+/* 设置列表 */
+.settings-card {
+  margin-bottom: 30rpx;
+}
+
+.settings-list {
+  padding: 10rpx 0;
+}
+
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.settings-item:last-child {
+  border-bottom: none;
+}
+
+.settings-item-left {
+  display: flex;
+  align-items: center;
+}
+
+.settings-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+
+.settings-text {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.arrow-icon {
+  width: 40rpx;
+  height: 40rpx;
+  opacity: 0.7;
+}
+
+/* 退出登录按钮 */
+.logout-container {
+  margin: 40rpx 0 20rpx;
+  padding: 0;
+  width: calc(100% - 40rpx);
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+}
+
+.logout-btn {
+  background: #ff4d4f;
+  color: white;
+  font-size: 34rpx;
+  font-weight: normal;
+  border: none;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 8rpx;
+  width: 100%;
+  padding: 0;
+}
+
+/* 版本信息 */
+.version-info {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  margin: 40rpx 0;
+} 
